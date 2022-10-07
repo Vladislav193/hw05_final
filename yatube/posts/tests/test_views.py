@@ -51,15 +51,6 @@ class PostPagesTests(TestCase):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
 
-    def test_home_page_show_correct_context(self):
-        """Шаблон post_list сформирован с правильным контекстом."""
-        response = self.authorized_client.get(reverse('posts:index'))
-        first_object = response.context['page_obj'][0]
-        post_author_0 = first_object.author
-        post_group_0 = first_object.group
-        self.assertEqual(post_author_0, self.user)
-        self.assertEqual(post_group_0, self.group)
-
     def test_group_list_page_correct_context(self):
         '''Проверяем, что в список постов передается правильный контекст '''
         response = self.authorized_client.get(reverse('posts:group_list',
