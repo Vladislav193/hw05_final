@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 
 
-PAGINATOR_PAGE = 10
+PAGINATOR_PAGE: int = 10
 
 
 def get_page(queryset, request):

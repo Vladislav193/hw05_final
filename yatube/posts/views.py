@@ -17,11 +17,9 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    title = f'Записи сообщества {group.title}'
     page_obj = get_page(group.posts.all(), request)
     context = {
         'group': group,
-        'title': title,
         'page_obj': page_obj,
     }
     return render(request, 'posts/group_list.html', context)
@@ -29,16 +27,12 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts_count = author.posts.all().count()
-    title = f'Профайл пользователя {username}'
     page_obj = get_page(author.posts.all(), request)
     following = (request.user.is_authenticated
                  and Follow.objects.filter(
                      user=request.user,
                      author=author).exists())
     context = {
-        'title': title,
-        'posts_count': posts_count,
         'author': author,
         'page_obj': page_obj,
         'following': following,
@@ -49,15 +43,11 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     author_post = post.author
-    title = f'Пост {post.text[:30]}'
-    form = CommentForm(request.POST)
-    comments = post.comments.all()
+    form = CommentForm()
     context = {
         'post': post,
-        'title': title,
         'author_post': author_post,
         'form': form,
-        'comments': comments,
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -126,16 +116,9 @@ def follow_index(request):
 @login_required
 def profile_follow(request, username):
     author = get_object_or_404(User, username=username)
-    if author == request.user:
-        return redirect(
-            'posts:profile',
-            username=username
-        )
-    follower = Follow.objects.filter(
-        user=request.user,
-        author=author
-    ).exists()
-    if follower is True:
+    if author == request.user or (Follow.objects.filter
+                                  (user=request.user,
+                                  author=author).exists()):
         return redirect(
             'posts:profile',
             username=username
