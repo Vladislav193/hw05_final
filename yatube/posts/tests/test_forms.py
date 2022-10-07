@@ -53,7 +53,7 @@ class PostCreateFormTest(TestCase):
         self.authorized_client.force_login(self.author)
 
     def test_create_post_with_image(self):
-        """При отправке поста с картинкой через форму 
+        """При отправке поста с картинкой через форму
         создаётся запись в базе данных.
         """
         form_data = {
