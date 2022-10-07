@@ -13,6 +13,7 @@ User = get_user_model()
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
+
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostCreateFormTest(TestCase):
     @classmethod
@@ -23,8 +24,6 @@ class PostCreateFormTest(TestCase):
             slug='test-slug4'
         )
         cls.author = User.objects.create(username='1')
-      
-        
         cls.small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x01\x00'
             b'\x01\x00\x00\x00\x00\x21\xf9\x04'
@@ -57,7 +56,6 @@ class PostCreateFormTest(TestCase):
         """При отправке поста с картинкой через форму 
         создаётся запись в базе данных.
         """
-        
         form_data = {
             'text': 'Тестовый текст2',
             'group': self.group.id,
@@ -69,7 +67,6 @@ class PostCreateFormTest(TestCase):
             reverse('posts:post_create'),
             data=form_data,
             follow=True)
-       
         self.assertEqual(
             Post.objects.count(), posts_count
         )
@@ -94,7 +91,7 @@ class PostCreateFormTest(TestCase):
             data=form_date,
             follow=True
         )
-        
+
         self.assertEqual(Post.objects.count(), posts_count)
         self.assertEqual(Comment.objects.count(), comments_count)
         self.assertTrue(response, reverse(

@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from urllib import response
 
 from django.test import Client, TestCase
 
@@ -13,4 +12,3 @@ class CoreUrlsTest(TestCase):
     def test_404(self):
         response = CoreUrlsTest.guest_client.get('/core/тест/')
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-

@@ -5,6 +5,7 @@ from .models import Group, Post, User, Follow
 from .forms import CommentForm, PostForm
 from django.views.decorators.cache import cache_page
 
+
 @cache_page(60 * 20)
 def index(request):
     page_obj = get_page(Post.objects.all(), request)
@@ -97,7 +98,7 @@ def post_edit(request, post_id):
         'form': form,
         'is_edit': True,
     }
-    return render(request, 'posts/post_create.html', context) 
+    return render(request, 'posts/post_create.html', context)
 
 
 @login_required
@@ -152,4 +153,3 @@ def profile_unfollow(request, username):
         user=request.user, author=User.objects.get(username=username)
     ).delete()
     return redirect('posts:profile', request.user)
-    

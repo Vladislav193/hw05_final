@@ -11,6 +11,7 @@ class PostForm(ModelForm):
         labels = {'group': 'Группа', 'text': 'Сообщение'}
         help_texts = {'group': 'Выберите группу', 'text': 'Введите ссообщение'}
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
